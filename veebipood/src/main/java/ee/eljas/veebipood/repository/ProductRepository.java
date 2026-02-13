@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //Repository - andmebaasiga suhtlemiseks. tema sees on kõik funktsioonid, mida on võimalik andmebaasiga teha.
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    Long id(Long id);
 }

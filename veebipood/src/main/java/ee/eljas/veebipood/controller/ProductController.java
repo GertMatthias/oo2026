@@ -25,6 +25,11 @@ public class ProductController {
         return productRepository.findAll();
     }
 
+    @GetMapping("products/{id}")
+    public Product getOneProduct(@PathVariable Long id){
+        return productRepository.findById(id).orElseThrow() ;
+    }
+
     @DeleteMapping("products/{id}")
     public List<Product> deleteProduct(@PathVariable Long id){
         productRepository.deleteById(id); //Kustutan
@@ -33,6 +38,18 @@ public class ProductController {
 
     @PostMapping("products")
     public List<Product> addProduct(@RequestBody Product product){
+        if(product.getId()!=null){
+            throw new RuntimeException("Cannot add without ID");
+        }
+        productRepository.save(product); //Siin salvestab
+        return productRepository.findAll(); //Siin on uuenenud seis
+    }
+
+    @PutMapping("products")
+    public List<Product> editProduct(@RequestBody Product product){
+        if(product.getId()==null){
+            throw new RuntimeException("Cannot edit without ID");
+        }
         productRepository.save(product); //Siin salvestab
         return productRepository.findAll(); //Siin on uuenenud seis
     }
