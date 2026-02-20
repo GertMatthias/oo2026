@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,5 +20,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date created;
-    private int total;
+    private double total;
+    private String parcelMachine;
+
+    @ManyToOne
+    private Person person;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<OrderRow> orderRows;
 }

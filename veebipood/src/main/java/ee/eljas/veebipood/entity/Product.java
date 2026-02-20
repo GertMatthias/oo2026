@@ -22,6 +22,10 @@ public class Product {
     private Boolean active;
     private Integer stock;
 
+    @ManyToOne
+    private Category category;
+
+
     //Andmebaasi, aga ei määra seda väärtust:
     //double - 0
     //boolean - false

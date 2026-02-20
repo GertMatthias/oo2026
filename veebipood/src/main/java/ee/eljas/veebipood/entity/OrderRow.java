@@ -11,18 +11,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Person {
+public class OrderRow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String lastname;
-    @Column(unique = true)
-    private String email;
-    private String password;
-    @Column(unique = true)
-    private String personalCode;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+    @ManyToOne
+    private Product product;
+
+    private int quantity;
 }
