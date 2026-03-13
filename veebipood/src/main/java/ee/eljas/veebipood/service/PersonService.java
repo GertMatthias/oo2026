@@ -13,26 +13,26 @@ public class PersonService {
     private final Pattern pattern = Pattern.compile(regex);
     private final EstonianPersonalCodeValidator validator = new EstonianPersonalCodeValidator();
 
-    public boolean isValid(String email){
+    public boolean isValid(String email) {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
     public void validate(Person person){
-        if(person.getId()!=null){
+        if (person.getId() != null) {
             throw new RuntimeException("Cannot sign up with ID");
         }
         if (person.getEmail() == null) {
-            throw new RuntimeException("Email is required");
+            throw new RuntimeException("Cannot sign up without email");
         }
-        if (person.getPersonalCode() == null){
-            throw new RuntimeException("PersonalCode is required");
+        if (person.getPersonalCode() == null) {
+            throw new RuntimeException("Cannot sign up without personal code");
         }
         if (!isValid(person.getEmail())) {
-            throw new RuntimeException("Email is not valid");
+            throw new RuntimeException("Invalid email");
         }
-        if(!validator.isValid(person.getPersonalCode())){
-            throw new RuntimeException("PersonalCode is not valid");
+        if (!validator.isValid(person.getPersonalCode())) {
+            throw new RuntimeException("Invalid personal code");
         }
     }
 }

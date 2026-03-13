@@ -10,6 +10,7 @@ import java.util.Date;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+
     @ExceptionHandler
     public ResponseEntity<ErrorMessage> handleException(RuntimeException ex) {
         ErrorMessage errorMessage = new ErrorMessage();

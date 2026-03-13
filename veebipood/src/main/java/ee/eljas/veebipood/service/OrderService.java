@@ -21,6 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderService {
 
+    // @Autowired --> Dependency Injection
+    // @RequiredArgConstructor --> Dependency Injection
+
+    // tagataustal tõmmatakse sisse tema mälukohaga
 
     private OrderRepository orderRepository;
     private PersonRepository personRepository;
@@ -28,10 +32,10 @@ public class OrderService {
 
     public Order saveOrder(Long personId, String parcelMachine, List<OrderRowDto> orderRows) {
         Order order = new Order();
-        order.setCreated(new Date());
+        order.setCreated(new Date()); // import ka
         order.setParcelMachine(parcelMachine);
-        //order.setOrderRows(orderRows);
-        Person person = personRepository.findById(personId).orElseThrow();
+//        order.setOrderRows(orderRows);
+        Person person = personRepository.findById(personId).orElseThrow(); // kui isikut ei leia --> exception
         order.setPerson(person);
         order.setTotal(calculateOrderTotal(orderRows, order));
         return orderRepository.save(order);
@@ -52,5 +56,4 @@ public class OrderService {
         order.setOrderRows(orderRowsInOrder);
         return total;
     }
-
 }

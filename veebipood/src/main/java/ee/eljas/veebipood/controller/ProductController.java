@@ -8,15 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
 public class ProductController {
-
-    //localhost: 8080/products
-    //application.prroperties server.port=8090
+    // localhost:8080/products
+    // application.properties  server.port=8090
 //    @GetMapping("products")
 //    public String helloworld(){
 //        return "Hello World";
 //    }
+
+    // 1xx -> (harva) informatiivne
+    // 2xx -> õnnestuv
+    // 3xx -> (harva) redirect
+    // 4xx -> päringu tegija (client error / front-end error)
+    // 5xx -> päringu vastuvõtja viga (server error)
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -27,31 +32,36 @@ public class ProductController {
 
     @GetMapping("products/{id}")
     public Product getOneProduct(@PathVariable Long id){
-        return productRepository.findById(id).orElseThrow() ;
+        return productRepository.findById(id).orElseThrow();
     }
 
     @DeleteMapping("products/{id}")
     public List<Product> deleteProduct(@PathVariable Long id){
-        productRepository.deleteById(id); //Kustutan
-        return productRepository.findAll(); //Uuenenud seis
+        productRepository.deleteById(id); // kustutan
+        return productRepository.findAll(); // uuenenud seis
     }
 
     @PostMapping("products")
     public List<Product> addProduct(@RequestBody Product product){
-        if(product.getId()!=null){
-            throw new RuntimeException("Cannot add without ID");
+        if (product.getId()!=null){
+            throw new RuntimeException("Cannot add with ID");
         }
-        productRepository.save(product); //Siin salvestab
-        return productRepository.findAll(); //Siin on uuenenud seis
+        productRepository.save(product); // siin salvestab
+        return productRepository.findAll(); // siin on uuenenud seis
     }
 
     @PutMapping("products")
     public List<Product> editProduct(@RequestBody Product product){
-        if(product.getId()==null){
+        // File -> Settings -> Plugins -> Lombok -> Install
+        if (product.getId()==null){
             throw new RuntimeException("Cannot edit without ID");
         }
-        productRepository.save(product); //Siin salvestab
-        return productRepository.findAll(); //Siin on uuenenud seis
+        if (!productRepository.existsById(product.getId())){
+            throw new RuntimeException("Product ID does not exist");
+        }
+        productRepository.save(product); // siin salvestab
+        return productRepository.findAll(); // siin on uuenenud seis
     }
+
 
 }
