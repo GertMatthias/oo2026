@@ -2,8 +2,12 @@ package ee.eljas.veebipood.controller;
 
 import ee.eljas.veebipood.entity.Product;
 import ee.eljas.veebipood.repository.ProductRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;  // !!!!!!!!!!!!!
+import org.springframework.data.domain.Pageable; // !!!!!!!!!!!!!
+
 
 import java.util.List;
 
@@ -29,8 +33,17 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping("products")
-    public List<Product> getProducts(){
-        return productRepository.findAll();
+    public Page<@NonNull Product> getProducts(Pageable pageable, @RequestParam(required = false) Long activeCategoryId) {
+        if (activeCategoryId == null || activeCategoryId==0) {
+            return productRepository.findAll(pageable);
+        } else {
+            return productRepository.findAllByCategoryId(pageable, activeCategoryId);
+        }
+    }
+
+    @GetMapping("products/admin")
+    public List<Product> getAdminProducts(){
+    return productRepository.findAll();
     }
 
     @GetMapping("products/{id}")
