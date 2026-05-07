@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/decathlon")
 public class DecathlonController {
@@ -33,6 +34,16 @@ public class DecathlonController {
             throw new IllegalArgumentException("Sportlase nimi on kohustuslik!");
         }
         return athleteRepository.save(athlete);
+    }
+
+    @DeleteMapping("/athletes/{id}")
+    public List<Athlete> deleteAthlete(@PathVariable Long id) {
+        List<DecathlonResult> athleteResults = resultRepository.findByAthleteId(id);
+        resultRepository.deleteAll(athleteResults);
+
+        athleteRepository.deleteById(id);
+
+        return athleteRepository.findAll();
     }
 
     // TULEMUSE LISAMINE JA PUNKTIDE ARVUTAMINE
