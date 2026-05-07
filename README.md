@@ -8,3 +8,6 @@ https://github.com/GertMatthias/OO26_Kumnevoistluse_Backend
 
 Frontend:
 https://github.com/GertMatthias/OO26_Kumnevoistluse_Frontend
+
+Render:
+https://oo26-kumnevoistluse-backend.onrender.com/decathlon/athletes
